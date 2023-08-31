@@ -1,5 +1,5 @@
-const { Resend } = require('resend');
-const { generateEmailHTML } = require('../utils/generateHtml')
+//const { Resend } = require('resend');
+//const { generateEmailHTML } = require('../utils/generateHtml')
 /*
 to='user@gmail.com'
 const products = [
@@ -12,8 +12,8 @@ const products = [
     }
   ];
   */
-const resend = new Resend(process.env.MAIL_KEY);
-
+//const resend = new Resend(process.env.MAIL_KEY);
+/*
 async function sendMail(to, products) {
   try {
     const emailHTML = generateEmailHTML(products)
@@ -32,4 +32,4 @@ async function sendMail(to, products) {
   }
 }
 
-module.exports = {sendMail}
+module.exports = {sendMail}*/
