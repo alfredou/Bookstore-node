@@ -34,7 +34,7 @@ const login = async (req, res, next) => {
         const { password, ...otherdetails } = user._doc
 
         res.cookie("access_token", token, {
-            httpOnly: true
+            httpOnly: true,
         }).status(200).json({ ...otherdetails })
 
     } catch (e) {
@@ -43,4 +43,4 @@ const login = async (req, res, next) => {
 }
 
 
-module.exports = { register, login }
+module.exports = { register, login}

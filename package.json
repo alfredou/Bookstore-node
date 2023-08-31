@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.40.0",
     "cookie-parser": "^1.4.6",
     "cors": "2.8.5",
     "dotenv": "^16.0.3",
@@ -20,6 +21,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.2",
     "nodemon": "^2.0.20",
+    "resend": "^1.0.0",
     "stripe": "^11.6.0"
   }
 }

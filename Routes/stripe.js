@@ -1,9 +1,11 @@
 const express = require("express")
-const { Order } = require("../Models/Order")
+const Order = require("../Models/Order")
+const User = require("../Models/User")
 require('dotenv').config()
 const router2 = express.Router()
 const stripe = require('stripe')(process.env.STRIPE_KEY)
 const NewPrice = require('../newPrice')
+const {sendMail} = require('../Routes/email')
 
 router2.post('/create-checkout-session', async (req, res) => {
     //para solucionar mañana si no lo resuelvo hoy convertir el precio de string a Number antes de pasarselo a la propiedad cart
@@ -64,7 +66,7 @@ router2.post('/create-checkout-session', async (req, res) => {
 //create order
 const createOrder = async (customer, data) => {
     const Items = JSON.parse(customer.metadata.cart);
-
+    
     const newOrder = new Order({
         userId: customer.metadata.userId,
         customerId: data.customer,
@@ -77,6 +79,11 @@ const createOrder = async (customer, data) => {
     })
     try {
         const savedOrder = await newOrder.save()
+        /*const user = await User.findById(savedOrder.userId)
+
+        if(user){
+            sendMail(user.email, Items)
+        }*/
         console.log("Processed Order:", savedOrder)
     }
     catch (err) {
@@ -86,7 +93,6 @@ const createOrder = async (customer, data) => {
 //stripe webhook
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-let endpointSecret = "whsec_1448ddd7d30588af13e9ef050f8bcaca3c2a7080b3f8d7ea124439ea03ebe8ef";
 
 //verify that webhook comes from strype added by me
 router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
@@ -95,12 +101,12 @@ router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =
     let data;
     let eventType;
 
-    if (endpointSecret) {
+    if (process.env.ENDPOINT_SECRET) {
         let event;
 
         try {
             //cambie el req.body a req.rawBody porque lo añadi en el index
-            event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+            event = stripe.webhooks.constructEvent(req.rawBody, sig, process.env.ENDPOINT_SECRET);
             console.log('webhook verified')
         } catch (err) {
             console.log(`Webhook Error: ${err.message}`)
