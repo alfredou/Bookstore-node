@@ -5,7 +5,7 @@ const app = express()
 const cors = require('cors')
 const verifyToken = require('./middlewares/verifyToken')
 const cookieParser = require('cookie-parser')
-const {sendMail} = require('./Routes/email')
+//const {sendMail} = require('./Routes/email')
 //app.use(express.json())
 //añadido de comentario útil del video
 app.use((req, res, next) => {
@@ -48,9 +48,8 @@ mongoose.connection.on("connected", () => {
 
 app.get("/", (req, res) => {
     res.send("hello world")
-    sendMail('alfredouiop@gmail.com')
 })
-app.get('/logout', verifyToken, async (req, res) => {
+app.get('/api/logout', verifyToken, async (req, res) => {
     try{
         res.clearCookie('access_token', { httpOnly: true });
         res.send('Sesión cerrada');
@@ -58,9 +57,9 @@ app.get('/logout', verifyToken, async (req, res) => {
         res.send({message: e})
     }
     });
-app.use("/api/comment", commentRouter)
-app.use("/api/user", verifyToken, userRouter)  
 app.use("/api/auth", router)
+app.use("/api/user", verifyToken, userRouter)  
+app.use("/api/comment", commentRouter)
 app.use("/api/stripe", stripe)
 app.get("/item", verifyToken, (req, res)=>{
     res.send("<h1>Tienes acceso</h1>")

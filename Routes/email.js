@@ -1,3 +1,4 @@
+//para mañana deployar front en vercel y agregarle lo que falta estructura de carpetas a este en los componentes antes de deployarlo o deployarlo asi como esta y luego agregar el websocket en stripe y integrar el dominio de email con sus dns etc. para mañana debe estar terminado.
 //const { Resend } = require('resend');
 //const { generateEmailHTML } = require('../utils/generateHtml')
 /*
