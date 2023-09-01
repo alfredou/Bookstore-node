@@ -35,6 +35,7 @@ const login = async (req, res, next) => {
 
         res.cookie("access_token", token, {
             httpOnly: true,
+            sameSite: "None"
         }).status(200).json({ ...otherdetails })
 
     } catch (e) {
