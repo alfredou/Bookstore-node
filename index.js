@@ -5,6 +5,8 @@ const app = express()
 const cors = require('cors')
 const verifyToken = require('./middlewares/verifyToken')
 const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser'); // Agrega body-parser
+
 //const {sendMail} = require('./Routes/email')
 //app.use(express.json())
 //añadido de comentario útil del video
@@ -18,14 +20,24 @@ app.use(cors({ origin: 'http://localhost:3000'}))
 app.use(cookieParser())
 //app.use(cors())
 
-app.use(
+/*app.use(
     express.json({
         limit: "5mb",
         verify: (req, res, buf) => {
             req.rawBody = buf.toString();
         },
     })
-);
+);*/
+app.use(bodyParser.json({
+    // Because Stripe needs the raw body, we compute it but only when hitting the Stripe callback URL.
+    verify: function(req,res,buf) {
+        var url = req.originalUrl;
+        if (url.startsWith('/api/stripe')) {
+            req.rawBody = buf.toString()
+        }
+    }}));
+
+
 
 const userRouter = require('./Routes/user')
 const router = require('./Routes/auth')
