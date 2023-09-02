@@ -17,6 +17,7 @@ app.use((req, res, next) => {
 app.use(cors({ origin: 'http://localhost:3000'}))
 app.use(cookieParser())
 //app.use(cors())
+/*
 app.use(
     express.json({
         limit: "5mb",
@@ -25,6 +26,17 @@ app.use(
         },
     })
 );
+*/
+app.use(
+    "/api/stripe",
+    express.json({
+      verify: (req, res, buf) => {
+        req.rawBody = buf.toString();
+      },
+    })
+  );
+
+app.use(express.json());
 
 const userRouter = require('./Routes/user')
 const router = require('./Routes/auth')

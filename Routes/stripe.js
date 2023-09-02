@@ -101,13 +101,15 @@ router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =
     let data;
     let eventType;
 
-    if (process.env.ENDPOINT_SECRET && req.rawBody && sig) {
+    if (process.env.ENDPOINT_SECRET) {
         let event;
 
         try {
             //cambie el req.body a req.rawBody porque lo añadi en el index
-            console.log("rawBody", req.rawBody)
+            //console.log("rawBody", req.rawBody)
+            console.log("sig", sig)
             event = stripe.webhooks.constructEvent(req.rawBody, sig, process.env.ENDPOINT_SECRET);
+            console.log("event", event.type)
             console.log('webhook verified')
         } catch (err) {
             console.log(`Webhook Error: ${err.message}`)
@@ -122,6 +124,7 @@ router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =
     }
     //handle the event
     if (eventType === "checkout.session.completed") {
+        console.log("eventType", req.body.type)
         //la info del cliente vendra de la info almacenada en data que contiene toda la información del cliente
         //es decir la que el cliente coloco en los campos del formulario y yo manejo en la sessión
         stripe.customers.retrieve(data.customer).then((customer) => {
