@@ -125,7 +125,7 @@ router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =
         eventType = req.body.type
     }
     //handle the event
-    if (eventType === "checkout.session.succeeded") {
+    if (eventType === "checkout.session.completed") {
         console.log("eventType", req.body.type)
         //la info del cliente vendra de la info almacenada en data que contiene toda la información del cliente
         //es decir la que el cliente coloco en los campos del formulario y yo manejo en la sessión
