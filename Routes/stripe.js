@@ -101,7 +101,7 @@ router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =
     let data;
     let eventType;
 
-    if (process.env.ENDPOINT_SECRET && req.rawBody) {
+    if (process.env.ENDPOINT_SECRET && req.rawBody && sig) {
         let event;
 
         try {
