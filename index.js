@@ -19,14 +19,14 @@ app.use(cors({ origin: 'http://localhost:3000'}))
 app.use(cookieParser())
 //app.use(cors())
 
-/*app.use(
+app.use(
     express.json({
         limit: "5mb",
         verify: (req, res, buf) => {
             req.rawBody = buf.toString();
         },
     })
-);*/
+);
 
   
 
