@@ -6,6 +6,8 @@ const router2 = express.Router()
 const stripe = require('stripe')(process.env.STRIPE_KEY)
 const NewPrice = require('../newPrice')
 const {sendMail} = require('../Routes/email')
+const getRawBody = require('raw-body')
+
 
 router2.post('/create-checkout-session', async (req, res) => {
     //para solucionar mañana si no lo resuelvo hoy convertir el precio de string a Number antes de pasarselo a la propiedad cart
@@ -95,21 +97,21 @@ const createOrder = async (customer, data) => {
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 
 //verify that webhook comes from strype added by me
-router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+router2.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
 
     let data;
     let eventType;
-
+    let event;
+    
     if (process.env.ENDPOINT_SECRET) {
-        let event;
-
+        
         try {
             //cambie el req.body a req.rawBody porque lo añadi en el index
             //console.log("rawBody", req.rawBody)
-            console.log("sig", sig)
+            //console.log("sig", sig)
             event = stripe.webhooks.constructEvent(req.rawBody, sig, process.env.ENDPOINT_SECRET);
-            console.log("event", event.type)
+            //console.log("event", event.type)
             console.log('webhook verified')
         } catch (err) {
             console.log(`Webhook Error: ${err.message}`)

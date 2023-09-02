@@ -6,7 +6,6 @@ const cors = require('cors')
 const verifyToken = require('./middlewares/verifyToken')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser'); // Agrega body-parser
-
 //const {sendMail} = require('./Routes/email')
 //app.use(express.json())
 //añadido de comentario útil del video
@@ -28,16 +27,8 @@ app.use(cookieParser())
         },
     })
 );*/
-app.use(bodyParser.json({
-    // Because Stripe needs the raw body, we compute it but only when hitting the Stripe callback URL.
-    verify: function(req,res,buf) {
-        var url = req.originalUrl;
-        if (url.startsWith('/api/stripe')) {
-            req.rawBody = buf.toString()
-        }
-    }}));
 
-
+  
 
 const userRouter = require('./Routes/user')
 const router = require('./Routes/auth')
@@ -73,6 +64,16 @@ app.get('/api/logout', verifyToken, async (req, res) => {
 app.use("/api/auth", router)
 app.use("/api/user", verifyToken, userRouter)  
 app.use("/api/comment", commentRouter)
+
+app.use(bodyParser.json({
+    // Because Stripe needs the raw body, we compute it but only when hitting the Stripe callback URL.
+    verify: function(req,res,buf) {
+        var url = req.originalUrl;
+        if (url.startsWith('/api/stripe')) {
+            req.rawBody = buf.toString()
+        }
+    }}));
+
 app.use("/api/stripe", stripe)
 
 app.get("/item", verifyToken, (req, res)=>{
