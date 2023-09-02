@@ -97,7 +97,7 @@ const createOrder = async (customer, data) => {
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 
 //verify that webhook comes from strype added by me
-router2.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
     const sig = req.headers['stripe-signature'];
 
     let data;
@@ -108,10 +108,10 @@ router2.post('/webhook', express.raw({ type: 'application/json' }), async (req, 
         
         try {
             //cambie el req.body a req.rawBody porque lo añadi en el index
-            //console.log("rawBody", req.rawBody)
-            //console.log("sig", sig)
-            event = stripe.webhooks.constructEvent(req.rawBody, sig, process.env.ENDPOINT_SECRET);
-            //console.log("event", event.type)
+            event = stripe.webhooks.constructEvent(req.rawBody, sig, `${process.env.ENDPOINT_SECRET}`);
+            console.log("secret", process.env.ENDPOINT_SECRET)
+            console.log("sig", sig)
+            console.log("raw", req.rawBody)
             console.log('webhook verified')
         } catch (err) {
             console.log(`Webhook Error: ${err.message}`)
