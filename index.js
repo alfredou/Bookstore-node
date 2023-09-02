@@ -64,7 +64,7 @@ app.get('/api/logout', verifyToken, async (req, res) => {
 app.use("/api/auth", router)
 app.use("/api/user", verifyToken, userRouter)  
 app.use("/api/comment", commentRouter)
-
+/*
 app.use(bodyParser.json({
     // Because Stripe needs the raw body, we compute it but only when hitting the Stripe callback URL.
     verify: function(req,res,buf) {
@@ -73,7 +73,7 @@ app.use(bodyParser.json({
             req.rawBody = buf.toString()
         }
     }}));
-
+*/
 app.use("/api/stripe", stripe)
 
 app.get("/item", verifyToken, (req, res)=>{
