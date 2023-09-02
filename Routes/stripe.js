@@ -101,11 +101,12 @@ router2.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =
     let data;
     let eventType;
 
-    if (process.env.ENDPOINT_SECRET) {
+    if (process.env.ENDPOINT_SECRET && req.rawBody) {
         let event;
 
         try {
             //cambie el req.body a req.rawBody porque lo añadi en el index
+            console.log("rawBody", req.rawBody)
             event = stripe.webhooks.constructEvent(req.rawBody, sig, process.env.ENDPOINT_SECRET);
             console.log('webhook verified')
         } catch (err) {
