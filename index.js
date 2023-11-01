@@ -10,12 +10,12 @@ const bodyParser = require('body-parser'); // Agrega body-parser
 //app.use(express.json())
 //añadido de comentario útil del video
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
+    res.setHeader('Access-Control-Allow-Origin', `*`);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
   });
 
-app.use(cors({ origin: `${process.env.CLIENT_URL}`}))
+app.use(cors({ origin: `*`}))
 app.use(cookieParser())
 //app.use(cors())
 
