@@ -10,12 +10,12 @@ const bodyParser = require('body-parser'); // Agrega body-parser
 //app.use(express.json())
 //añadido de comentario útil del video
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', `*`);
+    res.setHeader('Access-Control-Allow-Origin', `https://bookstore-azure-gamma.vercel.app/`);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
   });
 
-app.use(cors({ origin: `*`}))
+app.use(cors({ origin: `https://bookstore-azure-gamma.vercel.app/`}))
 app.use(cookieParser())
 //app.use(cors())
 
